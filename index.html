@@ -1,0 +1,222 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#090910">
+<meta name="description" content="BLADE ARENA — игровое сообщество Counter-Strike 2. Серверы, новости и магазин.">
+<title>BLADE ARENA — CS2</title>
+<style>
+:root{--bg:#090910;--panel:#12121c;--line:#28283a;--purple:#9765ff;--muted:#9999ae}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:100px}
+body{margin:0;background:var(--bg);color:#f7f5ff;font-family:Arial,Helvetica,sans-serif}
+button,input{font:inherit}
+button{cursor:pointer}
+header{position:sticky;top:0;z-index:10;background:#0c0c14ed;backdrop-filter:blur(15px);border-bottom:1px solid var(--line)}
+.nav{max-width:1180px;margin:auto;padding:17px 22px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.logo{font-size:22px;font-weight:900;letter-spacing:2px;white-space:nowrap}
+.logo span{color:var(--purple)}
+nav{display:flex;gap:20px;flex-wrap:wrap}
+nav a{font-size:13px;color:var(--muted);text-decoration:none;cursor:pointer}
+nav a:hover,nav a.active{color:white}
+.btn{display:inline-block;background:#202032;color:white;border:1px solid #34344a;padding:13px 17px;border-radius:8px;text-decoration:none;font-size:13px;font-weight:bold;transition:.2s}
+.btn:hover{border-color:var(--purple);transform:translateY(-2px)}
+.btn.primary{background:var(--purple);border-color:var(--purple);color:white}
+main{max-width:1180px;margin:auto;padding:0 22px}
+.hero{min-height:440px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:70px 10px;background:radial-gradient(ellipse at 50% 35%,#6536bd38,transparent 65%)}
+.eyebrow{font-size:11px;letter-spacing:4px;color:#bca4ff}
+h1{font-size:clamp(42px,8vw,82px);line-height:1.04;letter-spacing:-3px;margin:22px 0}
+h1 span{background:linear-gradient(90deg,#ad88ff,#58c7ff);background-clip:text;color:transparent}
+.hero p{max-width:510px;line-height:1.8;color:var(--muted);font-size:15px}
+.actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:22px}
+.section{padding:30px 0}
+.heading{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:20px}
+h2{font-size:23px;margin:0}
+.muted{color:var(--muted);font-size:13px;line-height:1.7}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
+.card{padding:21px;background:linear-gradient(145deg,#171725,#101019);border:1px solid var(--line);border-radius:13px;transition:.2s;min-width:0}
+.card:hover{border-color:#7451bb;transform:translateY(-3px)}
+.server-icon{width:44px;height:44px;display:grid;place-items:center;border-radius:11px;background:#9765ff20;color:#b89aff;font-size:23px}
+.card h3{margin:17px 0 9px;font-size:17px}
+.status{color:#a78bfa;font-size:11px;letter-spacing:1px}
+.card p{color:var(--muted);font-size:13px;line-height:1.7}
+.card-bottom{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:18px;padding-top:15px;border-top:1px solid var(--line)}
+.card-bottom .btn{padding:10px;font-size:11px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);background:var(--panel);border:1px solid var(--line);border-radius:12px}
+.stat{text-align:center;padding:23px 8px}
+.stat+.stat{border-left:1px solid var(--line)}
+.stat strong{display:block;font-size:26px;margin-bottom:8px}
+.stat span{font-size:11px;color:var(--muted)}
+.search{width:100%;max-width:280px;padding:12px;background:var(--panel);border:1px solid var(--line);border-radius:8px;color:white;outline:none}
+.search:focus{border-color:var(--purple)}
+.price{font-size:25px;font-weight:bold;margin:20px 0 12px}
+.price small{font-size:12px;color:var(--muted);font-weight:normal}
+.full{width:100%}
+.news-art{height:100px;border-radius:9px;display:grid;place-items:center;font-size:37px;background:radial-gradient(ellipse,#7546c955,transparent),#1a1929;margin-bottom:16px}
+.news-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+footer{margin-top:35px;border-top:1px solid var(--line)}
+.footer-inner{max-width:1180px;margin:auto;padding:28px 22px;display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap}
+.page{display:none}
+.page.active{display:block;animation:fade .25s}
+@keyframes fade{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.notice{padding:13px;border:1px solid var(--line);border-radius:9px;color:var(--muted);font-size:12px;line-height:1.7;margin-top:18px}
+.empty{display:none;color:var(--muted);padding:20px 0}
+@media(max-width:760px){
+.nav{flex-wrap:wrap;padding:15px}
+nav{order:3;width:100%;overflow-x:auto;flex-wrap:nowrap;padding:7px 0}
+nav a{white-space:nowrap}
+.grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.stats{grid-template-columns:repeat(2,1fr)}
+.stat:nth-child(3){border-left:0;border-top:1px solid var(--line)}
+.stat:nth-child(4){border-top:1px solid var(--line)}
+}
+@media(max-width:480px){
+main{padding:0 15px}
+.hero{min-height:390px;padding:48px 5px}
+h1{letter-spacing:-1.5px}
+.grid,.news-grid{grid-template-columns:1fr}
+.heading{align-items:flex-start;flex-direction:column}
+.search{max-width:none}
+}
+</style>
+</head>
+<body>
+<header>
+<div class="nav">
+<a class="logo" href="#home" onclick="showPage('home');return false">BLADE<span>ARENA</span></a>
+<nav>
+<a href="#home" data-page="home" class="active">Главная</a>
+<a href="#servers" data-page="servers">Серверы</a>
+<a href="#shop" data-page="shop">Магазин</a>
+<a href="#news" data-page="news">Новости</a>
+</nav>
+<button class="btn primary" onclick="showPage('servers')">Играть ↗</button>
+</div>
+</header>
+
+<main>
+<section id="home" class="page active">
+<div class="hero">
+<div class="eyebrow">COUNTER-STRIKE 2 COMMUNITY</div>
+<h1>ENTER THE<br><span>BLADE ARENA</span></h1>
+<p>Твоя игра. Твои правила. Твоё сообщество.
+Открой новый уровень игрового опыта.</p>
+<div class="actions">
+<button class="btn primary" onclick="showPage('servers')">Выбрать сервер →</button>
+<button class="btn" onclick="showPage('news')">Последние новости</button>
+</div>
+</div>
+
+<section class="section">
+<div class="heading"><h2>Игровые серверы</h2><button class="btn" onclick="showPage('servers')">Все серверы →</button></div>
+<div class="grid" id="featured"></div>
+</section>
+
+<section class="section">
+<div class="heading"><h2>Наш проект</h2></div>
+<div class="stats">
+<div class="stat"><strong>CS2</strong><span>Наша игра</span></div>
+<div class="stat"><strong>24/7</strong><span>Цель проекта</span></div>
+<div class="stat"><strong>∞</strong><span>Возможности</span></div>
+<div class="stat"><strong>YOU</strong><span>Часть команды</span></div>
+</div>
+<p class="muted">Это оформление демонстрационного проекта. Статистика игровых серверов пока не подключена.</p>
+</section>
+
+<section class="section">
+<div class="heading"><h2>Последние новости</h2><button class="btn" onclick="showPage('news')">Все новости →</button></div>
+<div class="news-grid">
+<article class="card"><div class="news-art">⚡</div><span class="status">ОБЪЯВЛЕНИЕ</span><h3>Добро пожаловать в BLADE ARENA</h3><p>Мы создаём пространство для игроков CS2. Следи за обновлениями проекта.</p></article>
+<article class="card"><div class="news-art">🎮</div><span class="status">СКОРО</span><h3>Запуск игровых серверов</h3><p>Подробности о режимах и адресах серверов появятся после их настройки.</p></article>
+</div>
+</section>
+</section>
+
+<section id="servers" class="page">
+<section class="section" style="padding-top:45px">
+<div class="heading"><div><h2>Игровые серверы</h2><p class="muted">Выбери свой режим</p></div><input class="search" id="search" placeholder="Поиск серверов..." oninput="renderServers()"></div>
+<div class="grid" id="allServers"></div>
+<div class="empty" id="empty">Серверы не найдены.</div>
+<div class="notice">Адреса и онлайн не выдуманы: серверы здесь демонстрационные. Добавь реальные IP после запуска собственных CS2-серверов.</div>
+</section>
+</section>
+
+<section id="shop" class="page">
+<section class="section" style="padding-top:45px">
+<div class="heading"><div><h2>Магазин привилегий</h2><p class="muted">Выбери статус для своего игрового сообщества</p></div></div>
+<div class="grid">
+<article class="card"><span class="status">LEVEL 01</span><h3 style="color:#a78bfa">VIP</h3><p>Базовая привилегия для участников.</p><div class="price">49 <small>кредитов*</small></div><button class="btn full" onclick="productInfo('VIP')">Подробнее</button></article>
+<article class="card"><span class="status">LEVEL 02</span><h3 style="color:#65caff">PREMIUM</h3><p>Расширенный статус участника.</p><div class="price">99 <small>кредитов*</small></div><button class="btn full" onclick="productInfo('PREMIUM')">Подробнее</button></article>
+<article class="card"><span class="status">LEVEL 03</span><h3 style="color:#f3c96a">LEGEND</h3><p>Особый статус сообщества.</p><div class="price">149 <small>кредитов*</small></div><button class="btn full" onclick="productInfo('LEGEND')">Подробнее</button></article>
+</div>
+<div class="notice">* Демонстрационные цены. Оплата и выдача привилегий не подключены. Не вводи платёжные данные на этой странице.</div>
+</section>
+</section>
+
+<section id="news" class="page">
+<section class="section" style="padding-top:45px">
+<h2>Новости проекта</h2>
+<div class="news-grid" style="margin-top:22px">
+<article class="card"><div class="news-art">🚀</div><span class="status">НОВОСТИ</span><h3>Старт BLADE ARENA</h3><p>Создаётся новый портал для сообщества Counter-Strike 2.</p></article>
+<article class="card"><div class="news-art">💎</div><span class="status">СКОРО</span><h3>Магазин привилегий</h3><p>Информация о товарах появится после настройки системы выдачи.</p></article>
+<article class="card"><div class="news-art">🎯</div><span class="status">В РАЗРАБОТКЕ</span><h3>Новые режимы</h3><p>В будущем можно добавить Deathmatch, Retake и другие режимы.</p></article>
+<article class="card"><div class="news-art">🌐</div><span class="status">СООБЩЕСТВО</span><h3>Мы развиваемся</h3><p>Следи за новыми функциями игрового портала.</p></article>
+</div>
+</section>
+</section>
+</main>
+
+<footer><div class="footer-inner"><div class="logo">BLADE<span>ARENA</span></div><span class="muted">Фанатский демонстрационный проект CS2</span><span class="muted">© 2026 BLADE ARENA</span></div></footer>
+
+<script>
+const servers=[
+{name:"PUBLIC",mode:"Классический режим",icon:"◈"},
+{name:"DEATHMATCH",mode:"Свободный бой",icon:"⚡"},
+{name:"RETAKE",mode:"Борьба за плент",icon:"◎"},
+{name:"DUELS",mode:"Дуэли один на один",icon:"↔"},
+{name:"AIM",mode:"Тренировка прицела",icon:"✦"},
+{name:"CASUAL",mode:"Казуальная игра",icon:"🎮"}
+];
+
+function card(s){
+return `<article class="card">
+<div class="server-icon">${s.icon}</div>
+<h3>${s.name}</h3><span class="status">CS2 · ${s.mode}</span>
+<p>Игровой сервер сообщества BLADE ARENA.</p>
+<div class="card-bottom"><span class="muted">Скоро запуск</span><button class="btn" onclick="serverInfo('${s.name}')">Подробнее</button></div>
+</article>`;
+}
+
+document.getElementById("featured").innerHTML=servers.slice(0,3).map(card).join("");
+
+function renderServers(){
+const query=(document.getElementById("search")?.value||"").toLowerCase();
+const found=servers.filter(s=>(s.name+" "+s.mode).toLowerCase().includes(query));
+document.getElementById("allServers").innerHTML=found.map(card).join("");
+document.getElementById("empty").style.display=found.length?"none":"block";
+}
+renderServers();
+
+function showPage(id){
+document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+document.getElementById(id)?.classList.add("active");
+document.querySelectorAll("[data-page]").forEach(a=>a.classList.toggle("active",a.dataset.page===id));
+window.scrollTo({top:0,behavior:"smooth"});
+}
+
+document.querySelectorAll("[data-page]").forEach(a=>{
+a.addEventListener("click",e=>{e.preventDefault();showPage(a.dataset.page)});
+});
+
+function serverInfo(name){
+alert(name+": игровой сервер ещё не подключён. После запуска добавь реальный IP и информацию о сервере.");
+}
+
+function productInfo(name){
+alert(name+": демонстрационная привилегия. Покупки пока не подключены.");
+}
+</script>
+</body>
+</html>
